@@ -68,16 +68,39 @@ def search_prompts():
         print(item['prompt'])
 
 
-def main():
+def delete_prompt():
+    prompts = load_prompts()
+
+    if not prompts:
+        print("\nNo prompts to delete.")
+        return
+
+    for index, item in enumerate(prompts, 1):
+        print(f"{index}. {item['title']}")
+
+    try:
+        choice = int(input("\nEnter prompt number to delete: "))
+
+        if choice < 1 or choice > len(prompts):
+            print("Invalid prompt number.")
+            return
+
+        removed = prompts.pop(choice - 1)
+        save_prompts(prompts)
+
+        print(f"\nDeleted: {removed['title']}")
+
+    except ValueError:
+        print("Please enter a valid number.")def main():
     while True:
         print("\n==========================")
         print("      AI PROMPT TOOLKIT")
         print("==========================")
-        print("1. Show all prompts")
-        print("2. Add a new prompt")
-        print("3. Search prompts")
-        print("4. Exit")
-
+       print("1. Show all prompts")
+print("2. Add a new prompt")
+print("3. Search prompts")
+print("4. Delete a prompt")
+print("5. Exit")
         choice = input("\nChoose an option: ").strip()
 
         if choice == "1":
@@ -86,9 +109,11 @@ def main():
             add_prompt()
         elif choice == "3":
             search_prompts()
-        elif choice == "4":
-            print("Goodbye!")
-            break
+elif choice == "4":
+    delete_prompt()
+elif choice == "5":
+    print("Goodbye!")
+    break
         else:
             print("Invalid option. Try again.")
 
