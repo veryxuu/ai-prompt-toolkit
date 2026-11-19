@@ -8,7 +8,6 @@ PROMPTS_FILE = Path(__file__).parent / "prompts.json"
 def load_prompts():
     if not PROMPTS_FILE.exists():
         return []
-
     with open(PROMPTS_FILE, "r", encoding="utf-8") as file:
         return json.load(file)
 
@@ -20,12 +19,9 @@ def save_prompts(prompts):
 
 def show_prompts():
     prompts = load_prompts()
-
     if not prompts:
-        print("\nNo prompts found.")
+        print("No prompts found.")
         return
-
-    print("\n--- SAVED PROMPTS ---")
 
     for index, item in enumerate(prompts, 1):
         print(f"\n{index}. {item['title']}")
@@ -33,35 +29,30 @@ def show_prompts():
 
 
 def add_prompt():
-    title = input("\nEnter prompt title: ").strip()
+    title = input("Enter prompt title: ").strip()
     prompt = input("Enter prompt text: ").strip()
 
     if not title or not prompt:
-        print("Title and prompt cannot be empty.")
+        print("Fields cannot be empty.")
         return
 
     prompts = load_prompts()
     prompts.append({"title": title, "prompt": prompt})
     save_prompts(prompts)
-
-    print("\nPrompt saved successfully!")
+    print("Prompt saved successfully!")
 
 
 def search_prompts():
-    query = input("\nSearch: ").strip().lower()
-    prompts = load_prompts()
-
+    query = input("Search: ").strip().lower()
     results = [
-        item for item in prompts
+        item for item in load_prompts()
         if query in item["title"].lower()
         or query in item["prompt"].lower()
     ]
 
     if not results:
-        print("\nNo matching prompts found.")
+        print("No matching prompts found.")
         return
-
-    print("\n--- SEARCH RESULTS ---")
 
     for item in results:
         print(f"\n{item['title']}")
@@ -72,14 +63,14 @@ def delete_prompt():
     prompts = load_prompts()
 
     if not prompts:
-        print("\nNo prompts to delete.")
+        print("No prompts to delete.")
         return
 
     for index, item in enumerate(prompts, 1):
         print(f"{index}. {item['title']}")
 
     try:
-        choice = int(input("\nEnter prompt number to delete: "))
+        choice = int(input("Enter prompt number to delete: "))
 
         if choice < 1 or choice > len(prompts):
             print("Invalid prompt number.")
@@ -87,20 +78,23 @@ def delete_prompt():
 
         removed = prompts.pop(choice - 1)
         save_prompts(prompts)
-
-        print(f"\nDeleted: {removed['title']}")
+        print(f"Deleted: {removed['title']}")
 
     except ValueError:
-        print("Please enter a valid number.")def main():
+        print("Please enter a valid number.")
+
+
+def main():
     while True:
         print("\n==========================")
         print("      AI PROMPT TOOLKIT")
         print("==========================")
-       print("1. Show all prompts")
-print("2. Add a new prompt")
-print("3. Search prompts")
-print("4. Delete a prompt")
-print("5. Exit")
+        print("1. Show all prompts")
+        print("2. Add a new prompt")
+        print("3. Search prompts")
+        print("4. Delete a prompt")
+        print("5. Exit")
+
         choice = input("\nChoose an option: ").strip()
 
         if choice == "1":
@@ -109,11 +103,11 @@ print("5. Exit")
             add_prompt()
         elif choice == "3":
             search_prompts()
-elif choice == "4":
-    delete_prompt()
-elif choice == "5":
-    print("Goodbye!")
-    break
+        elif choice == "4":
+            delete_prompt()
+        elif choice == "5":
+            print("Goodbye!")
+            break
         else:
             print("Invalid option. Try again.")
 
