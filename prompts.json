@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Coding Assistant",
+    "prompt": "Help me understand, debug, and improve this code. Explain the problem clearly and suggest a clean solution."
+  },
+  {
+    "title": "Code Reviewer",
+    "prompt": "Review this code for bugs, security issues, readability, and performance. Give specific suggestions for improvement."
+  },
+  {
+    "title": "Summarizer",
+    "prompt": "Summarize the following text into clear and concise bullet points while keeping the most important information."
+  },
+  {
+    "title": "Study Assistant",
+    "prompt": "Explain this topic step by step in simple language and give me a few examples to help me understand it."
+  },
+  {
+    "title": "Brainstorming",
+    "prompt": "Generate several creative ideas for this problem. For each idea, briefly explain its advantages and possible drawbacks."
+  }
+]
