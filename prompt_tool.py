@@ -1,7 +1,8 @@
+
 import json
 from pathlib import Path
 
-PROMPTS_FILE = Path("prompts.json")
+PROMPTS_FILE = Path(__file__).parent / "prompts.json"
 
 
 def load_prompts():
@@ -17,36 +18,80 @@ def save_prompts(prompts):
         json.dump(prompts, file, indent=2, ensure_ascii=False)
 
 
-def add_prompt(title, prompt):
+def show_prompts():
     prompts = load_prompts()
 
-    prompts.append({
-        "title": title,
-        "prompt": prompt
-    })
+    if not prompts:
+        print("\nNo prompts found.")
+        return
 
+    print("\n--- SAVED PROMPTS ---")
+
+    for index, item in enumerate(prompts, 1):
+        print(f"\n{index}. {item['title']}")
+        print(item['prompt'])
+
+
+def add_prompt():
+    title = input("\nEnter prompt title: ").strip()
+    prompt = input("Enter prompt text: ").strip()
+
+    if not title or not prompt:
+        print("Title and prompt cannot be empty.")
+        return
+
+    prompts = load_prompts()
+    prompts.append({"title": title, "prompt": prompt})
     save_prompts(prompts)
 
+    print("\nPrompt saved successfully!")
 
-def search_prompts(query):
+
+def search_prompts():
+    query = input("\nSearch: ").strip().lower()
     prompts = load_prompts()
-    query = query.lower()
 
-    return [
+    results = [
         item for item in prompts
         if query in item["title"].lower()
         or query in item["prompt"].lower()
     ]
 
+    if not results:
+        print("\nNo matching prompts found.")
+        return
 
-if __name__ == "__main__":
-    add_prompt(
-        "Coding Assistant",
-        "Help me understand and improve this piece of code."
-    )
-
-    results = search_prompts("coding")
+    print("\n--- SEARCH RESULTS ---")
 
     for item in results:
         print(f"\n{item['title']}")
-        print(item["prompt"])
+        print(item['prompt'])
+
+
+def main():
+    while True:
+        print("\n==========================")
+        print("      AI PROMPT TOOLKIT")
+        print("==========================")
+        print("1. Show all prompts")
+        print("2. Add a new prompt")
+        print("3. Search prompts")
+        print("4. Exit")
+
+        choice = input("\nChoose an option: ").strip()
+
+        if choice == "1":
+            show_prompts()
+        elif choice == "2":
+            add_prompt()
+        elif choice == "3":
+            search_prompts()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Try again.")
+
+
+if __name__ == "__main__":
+    main()
